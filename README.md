@@ -1,4 +1,4 @@
-# myapp
+# spendmate
 
 A new Flutter project.
 
