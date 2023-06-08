@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:spendmate/common/constsnt.dart';
 import 'package:spendmate/common/token.dart';
+import 'package:spendmate/screens/analytics.dart';
 import 'package:spendmate/screens/login.dart';
 import 'package:spendmate/screens/newtransaction.dart';
+import 'package:spendmate/screens/profile.dart';
 import 'package:spendmate/screens/transaction.dart';
 import 'package:spendmate/screens/updatetransaction.dart';
 
@@ -175,11 +177,35 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
-              await removeToken();
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-                (Route<dynamic> route) => false,
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Logout'),
+                    content: const Text('Are you sure you want to logout?'),
+                    actions: [
+                      TextButton(
+                        child: const Text('Cancel'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: const Text('Logout'),
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+                          await removeToken();
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()),
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
               );
             },
           ),
@@ -249,7 +275,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             IconButton(
               icon: const Icon(Icons.analytics),
               onPressed: () {
-                // Handle analytics button pressed
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AnalyticsPage(),
+                  ),
+                );
               },
             ),
             IconButton(
@@ -266,7 +297,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             IconButton(
               icon: const Icon(Icons.person),
               onPressed: () {
-                // Handle profile button pressed
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProfileScreen(),
+                  ),
+                );
               },
             ),
           ],
@@ -418,7 +454,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                         Align(
                           alignment: Alignment.bottomRight,
                           child: Text(
-                            'Rs. ${item['amount'].toString()}',
+                            '${item['amount'].toString()} ₹',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,

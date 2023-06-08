@@ -109,7 +109,15 @@ class _NewTransactionFormState extends State<NewTransactionForm> {
     return MaterialApp(
       title: 'My App',
       home: Scaffold(
-        appBar: AppBar(title: Text('New Transaction')),
+        appBar: AppBar(
+          title: Text('New Transaction'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: Form(
           key: _formKey,
           child: SingleChildScrollView(

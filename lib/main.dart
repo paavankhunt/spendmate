@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:spendmate/screens/splash_screen.dart';
 
 import 'screens/home.dart';
 import 'screens/login.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginScreen(),
+      home: SplashScreen(),
       routes: {
         '/home': (context) => MyHomePage(),
         '/login': (context) => LoginScreen(),

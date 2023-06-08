@@ -197,7 +197,15 @@ class _UpdateTransactionFormState extends State<UpdateTransactionForm> {
     return MaterialApp(
       title: 'My App',
       home: Scaffold(
-        appBar: AppBar(title: Text('Update Transaction')),
+        appBar: AppBar(
+          title: Text('Update Transaction'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
