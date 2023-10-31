@@ -327,17 +327,26 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         bool isExpense = item['transactionType'] == 'Expense';
         Color borderColor = isExpense ? Colors.red : Colors.green;
 
-        return GestureDetector(
-          // onTap: () {
-          //   Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) => TransactionScreen(
-          //         transactionId: item['_id'] ?? '',
-          //       ),
-          //     ),
-          //   );
-          // },
+        return InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TransactionScreen(
+                  transactionId: item['_id'] ?? '',
+                ),
+              ),
+            );
+          },
+          onLongPress: () {
+            logger.i(item['_id']);
+            final transactionId = item['_id'] as String?;
+            if (transactionId != null) {
+              confirmDeleteTransaction(transactionId);
+            } else {
+              logger.i('Transaction ID is null');
+            }
+          },
           child: Card(
             // shape: BeveledRectangleBorder(
             //   borderRadius: BorderRadius.only(
@@ -404,19 +413,19 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 );
                               },
                             ),
-                            IconButton(
-                              color: Colors.red.shade400,
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                logger.i(item['_id']);
-                                final transactionId = item['_id'] as String?;
-                                if (transactionId != null) {
-                                  confirmDeleteTransaction(transactionId);
-                                } else {
-                                  logger.i('Transaction ID is null');
-                                }
-                              },
-                            ),
+                            // IconButton(
+                            //   color: Colors.red.shade400,
+                            //   icon: const Icon(Icons.delete),
+                            //   onPressed: () {
+                            //     logger.i(item['_id']);
+                            //     final transactionId = item['_id'] as String?;
+                            //     if (transactionId != null) {
+                            //       confirmDeleteTransaction(transactionId);
+                            //     } else {
+                            //       logger.i('Transaction ID is null');
+                            //     }
+                            //   },
+                            // ),
                           ],
                         ),
                       ],

@@ -83,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       Container(
                         alignment: Alignment.center,
-                        decoration: BoxDecoration(color: Colors.purple),
+                        decoration: const BoxDecoration(color: Colors.purple),
                         child: Stack(
                           alignment: Alignment.bottomCenter,
                           children: [

@@ -115,7 +115,8 @@ class _AnalyticsPageState extends State<AnalyticsPage> {
                         ),
                       ),
                       SizedBox(height: 20),
-                      Expanded(
+                      Container(
+                        height: 400,
                         child: charts.BarChart(
                           _createSeriesData(),
                           animate: true,

@@ -194,164 +194,161 @@ class _UpdateTransactionFormState extends State<UpdateTransactionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'My App',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Update Transaction'),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Update Transaction'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        body: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  child: DropdownButtonFormField<String>(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Transaction Type cannot be empty';
-                      }
-                      return null;
-                    },
-                    value: _transactionTypeController.text,
-                    onChanged: (newValue) {
-                      setState(() {
-                        _transactionTypeController.text = newValue!;
-                      });
-                    },
-                    items: <String>[
-                      'Expense',
-                      'Income',
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
+      ),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: DropdownButtonFormField<String>(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Transaction Type cannot be empty';
+                    }
+                    return null;
+                  },
+                  value: _transactionTypeController.text,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _transactionTypeController.text = newValue!;
+                    });
+                  },
+                  items: <String>[
+                    'Expense',
+                    'Income',
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Select Transaction Type',
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Category cannot be empty';
+                    }
+                    return null;
+                  },
+                  controller: _categoryController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Category',
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Description cannot be empty';
+                    }
+                    return null;
+                  },
+                  controller: _descriptionController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Description',
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Amount cannot be empty';
+                    }
+                    // You can add additional validation for the amount if required
+                    // For example, check if the value is a valid number
+                    return null;
+                  },
+                  controller: _amountController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Amount',
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: InkWell(
+                  onTap: () => _selectDate(context),
+                  child: InputDecorator(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Select Transaction Type',
+                      labelText: 'Date and Time',
+                      hintText: 'Select Date and Time',
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          '${_selectedDateTime.year}-${_selectedDateTime.month.toString().padLeft(2, '0')}-${_selectedDateTime.day.toString().padLeft(2, '0')} ${_selectedDateTime.hour.toString().padLeft(2, '0')}:${_selectedDateTime.minute.toString().padLeft(2, '0')}',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.calendar_today),
+                          onPressed: () => _selectDate(context),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.access_time),
+                          onPressed: () => _selectTime(context),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  child: TextFormField(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Category cannot be empty';
-                      }
-                      return null;
-                    },
-                    controller: _categoryController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Category',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  child: TextFormField(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Description cannot be empty';
-                      }
-                      return null;
-                    },
-                    controller: _descriptionController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Description',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  child: TextFormField(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Amount cannot be empty';
-                      }
-                      // You can add additional validation for the amount if required
-                      // For example, check if the value is a valid number
-                      return null;
-                    },
-                    controller: _amountController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Amount',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                  child: InkWell(
-                    onTap: () => _selectDate(context),
-                    child: InputDecorator(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Date and Time',
-                        hintText: 'Select Date and Time',
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(
-                            '${_selectedDateTime.year}-${_selectedDateTime.month.toString().padLeft(2, '0')}-${_selectedDateTime.day.toString().padLeft(2, '0')} ${_selectedDateTime.hour.toString().padLeft(2, '0')}:${_selectedDateTime.minute.toString().padLeft(2, '0')}',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.calendar_today),
-                            onPressed: () => _selectDate(context),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.access_time),
-                            onPressed: () => _selectTime(context),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      final String transactionType =
-                          _transactionTypeController.text.trim();
-                      final String category = _categoryController.text.trim();
-                      final String description =
-                          _descriptionController.text.trim();
-                      final String amount = _amountController.text.trim();
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    final String transactionType =
+                        _transactionTypeController.text.trim();
+                    final String category = _categoryController.text.trim();
+                    final String description =
+                        _descriptionController.text.trim();
+                    final String amount = _amountController.text.trim();
 
-                      final transactionData = {
-                        'transactionType': transactionType,
-                        'category': category,
-                        'description': description,
-                        'amount': amount,
-                        'date': _selectedDateTime.toString(),
-                      };
+                    final transactionData = {
+                      'transactionType': transactionType,
+                      'category': category,
+                      'description': description,
+                      'amount': amount,
+                      'date': _selectedDateTime.toString(),
+                    };
 
-                      _submitTransaction(transactionData);
-                    }
-                  },
-                  child: const Text('Update'),
-                ),
-              ],
-            ),
+                    _submitTransaction(transactionData);
+                  }
+                },
+                child: const Text('Update'),
+              ),
+            ],
           ),
         ),
       ),
